@@ -139,25 +139,14 @@ public class AVL {
             node.right = deleteNode(node.right, data);
         }else{
 
-            if (node.left == null ||node.right == null){
-                Node temp = null;
-                if(node.left == null)
-                    temp = node.right;
-                else
-                    temp = node.left;
+            // when both or just one node is null
+            if(node.left == null)
+                return node.right;
+            else if (node.right == null)
+                return node.left;
 
-                if(temp == null){
-                    temp = node;
-                    node = null;
-
-                }else
-                    node = temp;
-            }else{
-                // both child exist
-                Node temp = getMinNode(node.right);
-                node.data = temp.data;
-                node.right = deleteNode(node.right, temp.data);
-            }
+            node.data = getMinNode(node.right).data;
+            node.right = deleteNode(node.right, node.data);
 
         }
         if(node == null)
