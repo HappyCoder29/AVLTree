@@ -124,6 +124,82 @@ public class AVL {
 
     }
 
+    public void deleteNode(int data){
+        root = deleteNode(root, data);
+    }
+
+    private Node deleteNode(Node node, int data){
+        if(node == null)
+            return  null;
+
+        if(data < node.data) {
+            node.left = deleteNode(node.left, data);
+        }
+        else if (data > node.data){
+            node.right = deleteNode(node.right, data);
+        }else{
+
+            if (node.left == null ||node.right == null){
+                Node temp = null;
+                if(node.left == null)
+                    temp = node.right;
+                else
+                    temp = node.left;
+
+                if(temp == null){
+                    temp = node;
+                    node = null;
+
+                }else
+                    node = temp;
+            }else{
+                // both child exist
+                Node temp = getMinNode(node.right);
+                node.data = temp.data;
+                node.right = deleteNode(node.right, temp.data);
+            }
+
+        }
+        if(node == null)
+            return  node;
+
+        node.height = Math.max(height(node.left), height(node.right)) +1;
+
+        int balance = getBalance(node);
+
+        // check for balance if balance is not right
+        // rotate left or right
+
+        if(balance > 1 && getBalance(node.left) >= 0){
+            return  rotateRight(node);
+        }
+        if(balance > 1 && getBalance(node.left) <0 ){
+            node.left = rotateLeft(node.left);
+            return  rotateRight(node);
+        }
+
+        if(balance < -1 && getBalance(node.right)<=0){
+            return  rotateLeft(node);
+        }
+
+
+
+        if(balance < -1 && getBalance(node.right)> 0){
+            node.right = rotateRight(node.right);
+            return  rotateLeft(node);
+        }
+
+        return  node;
+    }
+
+    private Node getMinNode(Node node){
+        Node current = node;
+        while(current.left != null)
+            current = current.left;
+        return  current;
+    }
+
+
 
 
 }

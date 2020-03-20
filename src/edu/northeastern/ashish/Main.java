@@ -12,7 +12,9 @@ public class Main {
         tree.insert(5);
         tree.insert(6);
         tree.insert(7);
-        tree.insert(10);
+        tree.insert(8);
+        tree.deleteNode(6);
+
 
         tree.levelOrder();
     }
